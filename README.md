@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -57,3 +58,20 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+=======
+# UniShare - Student Item Sharing System
+
+This project is developed as a Final Year Project (FYP) for Diploma in Computer Science.
+
+UniShare is a web-based platform that allows university students to borrow and lend items using a virtual point-based system without real-money transactions.
+
+## Technologies Used
+- Laravel
+- PHP
+- MySQL
+- XAMPP
+- AntiGravity IDE
+
+## Note
+This repository is used for backup and version control purposes.
+>>>>>>> 0700c40414dd29fe45768202d09880b153a65e6f
