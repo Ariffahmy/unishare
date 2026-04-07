@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UniShare Testing Tables</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        code {
+            background-color: #f8f8f8;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>UniShare FYP — Testing Documentation</h1>
+    <p><em>To copy into your report: Highlight the table below, right-click "Copy", and paste it directly into Microsoft Word. It will format as a real Word table.</em></p>
+
+    <h2>1. Integration Testing Table</h2>
+    <table>
+        <tr>
+            <th>Module Testing</th>
+            <th>Input Data</th>
+            <th>Error Handling</th>
+            <th>Expected Output</th>
+        </tr>
+        <tr>
+            <td><b>Auth + User Management</b></td>
+            <td>Valid credentials (<code>email</code>, <code>password</code>) via <code>POST /login</code></td>
+            <td>Returns error if credentials do not match any user record</td>
+            <td>User is authenticated, session created, and redirected to the Dashboard.</td>
+        </tr>
+        <tr>
+            <td><b>Auth + User Management</b></td>
+            <td>New user details (<code>name</code>, <code>email</code>, <code>phone_number</code>, <code>password</code>) via <code>POST /register</code></td>
+            <td>Checks for unique email and phone number; returns validation errors if password mismatch</td>
+            <td>User account is created with 100 starting points, user is logged in and redirected to Dashboard.</td>
+        </tr>
+        <tr>
+            <td><b>Auth + Middleware</b></td>
+            <td>Logged-in user with <code>is_suspended = 1</code> attempts to access system</td>
+            <td>Middleware detects suspended status</td>
+            <td>Access is denied; user cannot reach the Dashboard.</td>
+        </tr>
+        <tr>
+            <td><b>Auth + Admin Module</b></td>
+            <td>Logged-in user with <code>is_admin = 0</code> attempts to access <code>/admin</code></td>
+            <td><code>AdminMiddleware</code> blocks the request</td>
+            <td>User is redirected away with an Access Denied error.</td>
+        </tr>
+        <tr>
+            <td><b>Item Mgmt + Storage</b></td>
+            <td>Item creation form (<code>title</code>, <code>category</code>, <code>points</code>, <code>photos[]</code>) via <code>POST /items</code></td>
+            <td>Rejects empty titles, non-image file uploads, and negative points</td>
+            <td>Item saved to <code>items</code> table; uploaded photos saved to <code>item_photos</code> table with first as primary.</td>
+        </tr>
+        <tr>
+            <td><b>Item Mgmt + Photo System</b></td>
+            <td>Deleting primary photo via <code>DELETE /items/{id}/photos/{photoId}</code></td>
+            <td>Rejects if photo does not belong to the item</td>
+            <td>Photo deleted from storage; next available photo automatically promoted as primary.</td>
+        </tr>
+        <tr>
+            <td><b>Borrow Request + Points</b></td>
+            <td>Borrow request form (<code>item_id</code>, <code>start_date</code>, <code>end_date</code>) via <code>POST /borrow-requests</code></td>
+            <td>Returns error "Item is not available" if dates overlap an existing active request</td>
+            <td>New <code>borrow_requests</code> record created with <code>status = pending</code>; no points deducted yet.</td>
+        </tr>
+        <tr>
+            <td><b>Borrow Request + Points</b></td>
+            <td>Approving a pending request via <code>PATCH /borrow-requests/{id}/approve</code></td>
+            <td>Returns error if request not pending; throws error if borrower has insufficient points</td>
+            <td>Points deducted from borrower and credited to lender; status updated to <code>approved</code>.</td>
+        </tr>
+        <tr>
+            <td><b>Borrow Request + Points</b></td>
+            <td>Cancelling an approved request via <code>PATCH /borrow-requests/{id}/cancel</code></td>
+            <td>Returns error "Only approved requests can be cancelled"</td>
+            <td>Points refunded safely to borrower and reversed from lender; status updated to <code>cancelled</code>.</td>
+        </tr>
+        <tr>
+            <td><b>Penalty + Borrow System</b></td>
+            <td>Lender marks item returned late via <code>PATCH /borrow-requests/{id}/returned</code></td>
+            <td>Returns error if request is not currently <code>borrowed</code> or <code>overdue</code></td>
+            <td>Status updated to <code>returned</code>; late penalty auto-created (5 pts × overdue days); points deducted from borrower.</td>
+        </tr>
+        <tr>
+            <td><b>Penalty + Admin Module</b></td>
+            <td>Lender submits missing report (<code>evidence_photo</code>) via <code>POST /borrow-requests/{id}/missing</code></td>
+            <td>Returns error if user is not item owner; requires evidence photo</td>
+            <td>Borrow request status → <code>missing</code>; penalty record created as <code>pending</code> awaiting admin.</td>
+        </tr>
+        <tr>
+            <td><b>Admin + Points System</b></td>
+            <td>Admin approves a pending missing penalty via <code>POST /admin/penalties/{id}/approve</code></td>
+            <td>Returns error if penalty is not in <code>pending</code> status</td>
+            <td>Penalty status → <code>active</code>; penalty points deducted from borrower; lender is compensated.</td>
+        </tr>
+        <tr>
+            <td><b>Admin + User Management</b></td>
+            <td>Admin suspends a user via <code>POST /admin/users/{id}/suspend</code></td>
+            <td>Error if admin tries to suspend themselves or another admin</td>
+            <td>User <code>is_suspended</code> set to <code>1</code>; <code>suspended_at</code> updated in <code>users</code> table.</td>
+        </tr>
+        <tr>
+            <td><b>Messaging System</b></td>
+            <td>Starting new conversation (<code>recipient_id</code>, <code>message</code>) via <code>POST /messages/start</code></td>
+            <td>Prevents messaging yourself; error if recipient doesn't exist</td>
+            <td>New <code>conversations</code> record created; first <code>messages</code> record stored; user redirected.</td>
+        </tr>
+        <tr>
+            <td><b>Messaging System</b></td>
+            <td>Recipient opens conversation via <code>GET /messages/{conversation_id}</code></td>
+            <td>Returns 403 if user is not a participant</td>
+            <td>All unread messages from the sender have their <code>read_at</code> timestamp updated.</td>
+        </tr>
+        <tr>
+            <td><b>Rating + User Reputation</b></td>
+            <td>Borrower rates lender (1-5) via <code>POST /ratings</code></td>
+            <td>Rejects duplicate rating for the same borrow request</td>
+            <td>Rating stored; rated user's average reputation score is automatically recalculated.</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h2>2. System Testing Table</h2>
+    <table>
+        <tr>
+            <th>Module Testing</th>
+            <th>Input Data</th>
+            <th>Error Handling</th>
+            <th>Expected Output</th>
+        </tr>
+        <tr>
+            <td><b>New Student Onboarding</b></td>
+            <td>Full registration form (<code>name</code>, <code>email</code>, <code>phone_number</code>, <code>password</code>) followed by login</td>
+            <td>Rejects duplicate email/phone; validates password confirmation match</td>
+            <td>Account created with 100 starting points; user successfully logged in and lands on Dashboard.</td>
+        </tr>
+        <tr>
+            <td><b>Item Listing Flow</b></td>
+            <td>Item details form (<code>title</code>, <code>category</code>, <code>description</code>) with 2 uploaded image files</td>
+            <td>Rejects empty title, non-image files, and invalid points values</td>
+            <td>Item saved and listed as Active; primary photo displayed on item card; item becomes publicly visible.</td>
+        </tr>
+        <tr>
+            <td><b>Full Borrow Transaction</b></td>
+            <td>Borrow request form → lender approves → lender marks borrowed → lender marks returned (on-time)</td>
+            <td>Blocks request if dates overlap; blocks approval if borrower lacks points</td>
+            <td>Points correctly deducted from borrower and credited to lender; status progresses <code>pending → approved → borrowed → returned</code>.</td>
+        </tr>
+        <tr>
+            <td><b>Overdue Return Flow</b></td>
+            <td>Lender marks item as returned after the scheduled <code>end_date</code> has passed</td>
+            <td>Returns error if item is not in <code>borrowed</code> or <code>overdue</code> status</td>
+            <td>Overdue days calculated correctly; late penalty auto-created (5 pts × overdue days); points deducted from borrower.</td>
+        </tr>
+        <tr>
+            <td><b>Damage Report Flow</b></td>
+            <td>Lender submits damage report with <code>evidence_photo</code>; Admin reviews and approves it</td>
+            <td>Requires lender ownership & evidence photo; rejects approval if not <code>pending</code></td>
+            <td>Pending penalty created; upon admin approval, 50 points are deducted from borrower and credited to lender.</td>
+        </tr>
+        <tr>
+            <td><b>Admin Rejects Penalty</b></td>
+            <td>Admin navigates to Penalties panel and clicks Reject on a pending damage report</td>
+            <td>Returns error if penalty is not currently <code>pending</code></td>
+            <td>Penalty status updated to <code>rejected</code>; borrower's points remain unchanged; lender receives no compensation.</td>
+        </tr>
+        <tr>
+            <td><b>Messaging Flow</b></td>
+            <td>User A sends message to User B via item detail page; User B replies from inbox</td>
+            <td>Prevents messaging self; blocks access to conversations the user is not part of</td>
+            <td>Conversation thread created; messages stored sequentially; unread badge shown on navbar; <code>read_at</code> updated when viewed.</td>
+        </tr>
+        <tr>
+            <td><b>Admin Suspends Account</b></td>
+            <td>Admin enters suspension reason and submits; later clicks Unsuspend on same user</td>
+            <td>Admin cannot suspend another admin or themselves</td>
+            <td>While suspended, student cannot log in; after unsuspending, student can log in and access system normally.</td>
+        </tr>
+        <tr>
+            <td><b>Admin Adjusts Points</b></td>
+            <td>Admin enters <code>+50</code> points with reason "Bonus Award"; then <code>-20</code> points</td>
+            <td>Validates that the input points field is a valid integer</td>
+            <td>User's <code>points_balance</code> correctly increases then decreases; <code>point_transactions</code> logs created for both manual adjustments.</td>
+        </tr>
+        <tr>
+            <td><b>Item Search & Filter</b></td>
+            <td>Keyword "Camera" entered in search bar; category "Electronics" selected</td>
+            <td>No error thrown if search returns zero results; displays empty state</td>
+            <td>Search results show only matching items; category filter narrows list; clearing filters restores full item listing.</td>
+        </tr>
+        <tr>
+            <td><b>Review & Rating Flow</b></td>
+            <td>Borrower submits 5-star review with comment and rates lender 4 stars</td>
+            <td>Blocks duplicate review or rating for the exact same borrow request</td>
+            <td>Review appears on item detail page; user-to-user rating stored; lender's average reputation score dynamically updated.</td>
+        </tr>
+        <tr>
+            <td><b>Reports & Analytics</b></td>
+            <td>Admin navigates to Reports page (no user input required)</td>
+            <td>Prevents crashes if transaction tables are currently empty</td>
+            <td>All report sections load successfully: top lenders, top borrowers, category distribution chart, and monthly transaction trends.</td>
+        </tr>
+        <tr>
+            <td><b>Availability Conflict</b></td>
+            <td>Second user submits borrow request for same item with exact overlapping dates</td>
+            <td>Returns error "Item is not available for the selected dates"</td>
+            <td>Borrow request is rejected completely; no record is saved to the database; prior existing booking remains wholly unaffected.</td>
+        </tr>
+        <tr>
+            <td><b>Profile & Avatar Update</b></td>
+            <td>User submits updated <code>name</code>, <code>bio</code>, <code>location</code>, and a new <code>avatar</code> image upload</td>
+            <td>Validates unique email (excluding self); accepts only valid image types</td>
+            <td>Profile updated in <code>users</code> table; new avatar safely stored; updated layout fully displayed correctly on public profile.</td>
+        </tr>
+    </table>
+
+</body>
+</html>
