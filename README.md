@@ -1,77 +1,311 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 12">
+  <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.2+">
+  <img src="https://img.shields.io/badge/TailwindCSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS 4">
+  <img src="https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 7">
+  <img src="https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
 </p>
 
-## About Laravel
+# 🎓 UniShare — Student Item Sharing Platform
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**UniShare** is a web-based platform that allows university students to **borrow and lend items** using a **virtual point-based economy** — no real money involved. Built as a Final Year Project (FYP) for a Diploma in Computer Science.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+> Students earn points by lending their items and spend points to borrow from others, creating a self-sustaining campus sharing ecosystem.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## ✨ Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 🔐 Authentication & User Management
+- User registration and login with secure password hashing
+- User profiles with avatar, bio, location, and phone number
+- Admin role with elevated privileges
+- Account suspension system with reason tracking
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 📦 Item Management
+- List items for lending with title, category, condition, and description
+- Set custom points-per-day pricing and maximum borrow duration
+- Upload multiple photos per item with primary photo selection
+- Toggle item availability (active/inactive)
+- Item likes/favorites system
 
-## Laravel Sponsors
+### 🤝 Borrowing System
+- Submit borrow requests with start/end dates and optional notes
+- Full status lifecycle: `Pending → Approved → Borrowed → Returned`
+- Overlap detection to prevent double-booking
+- Automatic point calculation based on borrow duration
+- Support for cancellation, rejection, and overdue tracking
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 💰 Virtual Point Economy
+- Every new user starts with a points balance
+- Points are **spent** when borrowing items
+- Points are **earned** when lending items
+- Complete transaction history with descriptions
+- Atomic, race-condition-safe point transfers using database locks
 
-### Premium Partners
+### ⚠️ Penalty System
+- **Late Return** — 5 points per overdue day
+- **Damaged Item** — Flat 50-point penalty
+- **Missing Item** — 3× the total borrow cost
+- Lenders can report damage/missing with evidence photos
+- Admin review workflow: Pending → Approved / Rejected
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### ⭐ Ratings & Reviews
+- Both borrowers and lenders can rate each other after a transaction
+- Item-level reviews with star ratings
+- User reputation via average rating display
 
-## Contributing
+### 💬 Messaging
+- Real-time conversations between users
+- Unread message count tracking
+- Start conversations directly from item listings
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 🛡️ Admin Dashboard
+- Platform-wide statistics and analytics
+- User management (view, suspend/unsuspend, toggle admin, adjust points)
+- Item moderation (toggle status, delete)
+- Borrow request oversight
+- Penalty review and approval workflow
+- Reporting and data export
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🏗️ Tech Stack
 
-## Security Vulnerabilities
+| Layer          | Technology                                                  |
+|----------------|-------------------------------------------------------------|
+| **Framework**  | [Laravel 12](https://laravel.com)                           |
+| **Language**   | PHP 8.2+                                                    |
+| **Frontend**   | [Blade Templates](https://laravel.com/docs/blade) + Vanilla JS |
+| **Styling**    | [Tailwind CSS 4](https://tailwindcss.com)                   |
+| **Build Tool** | [Vite 7](https://vitejs.dev) with Laravel Vite Plugin       |
+| **Database**   | SQLite (default) / MySQL compatible                         |
+| **Queue**      | Database driver                                             |
+| **Cache**      | Database driver                                             |
+| **HTTP Client**| [Axios](https://axios-http.com)                             |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 📐 Architecture
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# UniShare - Student Item Sharing System
+```
+unishare/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/        # 8 controllers (Auth, Item, BorrowRequest, etc.)
+│   │   └── Middleware/          # AdminMiddleware for role-based access
+│   ├── Models/                  # 10 Eloquent models
+│   │   ├── User.php             # Users with points, ratings, admin/suspend flags
+│   │   ├── Item.php             # Lendable items with photos and reviews
+│   │   ├── BorrowRequest.php    # Full lifecycle state machine
+│   │   ├── Penalty.php          # Late/damage/missing penalty tracking
+│   │   ├── PointTransaction.php # Audit log for all point movements
+│   │   ├── Conversation.php     # Messaging conversations
+│   │   ├── Message.php          # Individual messages
+│   │   ├── Rating.php           # User-to-user ratings
+│   │   ├── Review.php           # Item reviews
+│   │   └── ItemPhoto.php        # Multi-photo uploads
+│   ├── Providers/               # Service providers
+│   └── Services/
+│       └── PointService.php     # Atomic point add/spend with DB locks
+├── database/
+│   ├── migrations/              # 19 migration files
+│   └── seeders/                 # DatabaseSeeder + PenaltyDemoSeeder
+├── resources/
+│   └── views/                   # Blade templates
+│       ├── layouts/             # App layout
+│       ├── admin/               # Admin dashboard views
+│       ├── auth/                # Login & registration
+│       ├── borrow/              # Borrow request management
+│       ├── items/               # Item CRUD views
+│       ├── messages/            # Messaging UI
+│       ├── penalties/           # Penalty views
+│       ├── profile/             # User profile
+│       └── ratings/             # Rating & review forms
+├── routes/
+│   └── web.php                  # All web routes (auth, items, borrow, admin)
+├── docs/                        # Project documentation
+│   ├── data_dictionary.md       # Database field reference
+│   ├── user_manual.md           # End-user guide
+│   └── testing.md               # Test cases & results
+└── public/                      # Web root & compiled assets
+```
 
-This project is developed as a Final Year Project (FYP) for Diploma in Computer Science.
+---
 
-UniShare is a web-based platform that allows university students to borrow and lend items using a virtual point-based system without real-money transactions.
+## 🗃️ Database Schema
 
-## Technologies Used
-- Laravel
-- PHP
-- MySQL
-- XAMPP
-- AntiGravity IDE
+The application uses **19 migrations** to build the following key tables:
 
-## Note
-This repository is used for backup and version control purposes.
->>>>>>> 0700c40414dd29fe45768202d09880b153a65e6f
+| Table                 | Purpose                                           |
+|-----------------------|---------------------------------------------------|
+| `users`               | User accounts, points balance, admin/suspend flags |
+| `items`               | Lendable items with pricing and availability       |
+| `item_photos`         | Multi-photo support per item                       |
+| `borrow_requests`     | Borrow transactions with full status lifecycle     |
+| `point_transactions`  | Audit log for every point earn/spend               |
+| `penalties`           | Late return, damage, and missing item penalties    |
+| `ratings`             | User-to-user ratings per borrow transaction        |
+| `reviews`             | Item reviews with star ratings                     |
+| `conversations`       | Two-party messaging threads                        |
+| `messages`            | Individual messages with read tracking             |
+| `user_item_likes`     | Pivot table for item favorites                     |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **PHP** 8.2 or higher
+- **Composer** 2.x
+- **Node.js** 18+ and **npm**
+- **SQLite** (default) or **MySQL 8+**
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Ariffahmy/unishare.git
+   cd unishare
+   ```
+
+2. **Quick setup** (installs dependencies, generates key, runs migrations, and builds assets)
+   ```bash
+   composer setup
+   ```
+
+   <details>
+   <summary>Or set up manually step by step</summary>
+
+   ```bash
+   # Install PHP dependencies
+   composer install
+
+   # Copy environment config
+   cp .env.example .env
+
+   # Generate application key
+   php artisan key:generate
+
+   # Run database migrations
+   php artisan migrate
+
+   # Install Node dependencies
+   npm install
+
+   # Build frontend assets
+   npm run build
+   ```
+   </details>
+
+3. **Configure your environment** — Edit `.env` as needed:
+   ```env
+   APP_NAME=UniShare
+   APP_URL=http://localhost:8000
+
+   # Default: SQLite (no extra setup needed)
+   DB_CONNECTION=sqlite
+
+   # For MySQL, uncomment and set:
+   # DB_CONNECTION=mysql
+   # DB_HOST=127.0.0.1
+   # DB_PORT=3306
+   # DB_DATABASE=unishare
+   # DB_USERNAME=root
+   # DB_PASSWORD=
+   ```
+
+4. **(Optional) Seed demo data**
+   ```bash
+   php artisan db:seed
+   ```
+
+### Running the Application
+
+**Recommended** — Start all services at once (server + queue + logs + Vite):
+```bash
+composer dev
+```
+
+This runs concurrently:
+- 🌐 `php artisan serve` — Laravel dev server at `http://localhost:8000`
+- 📬 `php artisan queue:listen` — Background job processing
+- 📋 `php artisan pail` — Real-time log viewer
+- ⚡ `npm run dev` — Vite HMR for frontend assets
+
+**Or start individually:**
+```bash
+# Terminal 1: Laravel server
+php artisan serve
+
+# Terminal 2: Vite dev server
+npm run dev
+```
+
+---
+
+## 🔄 Borrow Request Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending : Borrower submits request
+    Pending --> Approved : Lender approves
+    Pending --> Rejected : Lender rejects
+    Approved --> Borrowed : Lender confirms handover
+    Approved --> Cancelled : Either party cancels
+    Borrowed --> Returned : Lender confirms return
+    Borrowed --> Overdue : Past end date
+    Borrowed --> Missing : Lender reports missing
+    Overdue --> Returned : Item returned late
+    Overdue --> Missing : Lender reports missing
+    Missing --> Returned : Item found & returned
+    Returned --> [*]
+    Rejected --> [*]
+    Cancelled --> [*]
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run the full test suite
+composer test
+
+# Or directly
+php artisan test
+```
+
+See [`docs/testing.md`](docs/testing.md) for detailed test cases and results.
+
+---
+
+## 📖 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [`docs/user_manual.md`](docs/user_manual.md) | End-user guide with screenshots and workflows |
+| [`docs/data_dictionary.md`](docs/data_dictionary.md) | Complete database field reference |
+| [`docs/testing.md`](docs/testing.md) | Test cases, scenarios, and results |
+
+---
+
+## 👤 User Roles
+
+| Role      | Capabilities                                                                 |
+|-----------|-----------------------------------------------------------------------------|
+| **Student** | Register, list items, borrow items, message users, rate & review, view penalties |
+| **Admin**   | All student abilities + user management, item moderation, penalty approval, reports |
+
+---
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+<p align="center">
+  Built with ❤️ as a Final Year Project · Diploma in Computer Science
+</p>
