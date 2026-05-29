@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
 </p>
 
-# 🎓 UniShare — Student Item Sharing Platform
+# UniShare — Student Item Sharing Platform
 
 **UniShare** is a web-based platform that allows university students to **borrow and lend items** using a **virtual point-based economy** — no real money involved. Built as a Final Year Project (FYP) for a Diploma in Computer Science.
 
@@ -14,53 +14,53 @@
 
 ---
 
-## ✨ Features
+## Features
 
-### 🔐 Authentication & User Management
+### Authentication & User Management
 - User registration and login with secure password hashing
 - User profiles with avatar, bio, location, and phone number
 - Admin role with elevated privileges
 - Account suspension system with reason tracking
 
-### 📦 Item Management
+### Item Management
 - List items for lending with title, category, condition, and description
 - Set custom points-per-day pricing and maximum borrow duration
 - Upload multiple photos per item with primary photo selection
 - Toggle item availability (active/inactive)
 - Item likes/favorites system
 
-### 🤝 Borrowing System
+### Borrowing System
 - Submit borrow requests with start/end dates and optional notes
 - Full status lifecycle: `Pending → Approved → Borrowed → Returned`
 - Overlap detection to prevent double-booking
 - Automatic point calculation based on borrow duration
 - Support for cancellation, rejection, and overdue tracking
 
-### 💰 Virtual Point Economy
+### Virtual Point Economy
 - Every new user starts with a points balance
 - Points are **spent** when borrowing items
 - Points are **earned** when lending items
 - Complete transaction history with descriptions
 - Atomic, race-condition-safe point transfers using database locks
 
-### ⚠️ Penalty System
+### Penalty System
 - **Late Return** — 5 points per overdue day
 - **Damaged Item** — Flat 50-point penalty
 - **Missing Item** — 3× the total borrow cost
 - Lenders can report damage/missing with evidence photos
 - Admin review workflow: Pending → Approved / Rejected
 
-### ⭐ Ratings & Reviews
+### Ratings & Reviews
 - Both borrowers and lenders can rate each other after a transaction
 - Item-level reviews with star ratings
 - User reputation via average rating display
 
-### 💬 Messaging
+### Messaging
 - Real-time conversations between users
 - Unread message count tracking
 - Start conversations directly from item listings
 
-### 🛡️ Admin Dashboard
+### Admin Dashboard
 - Platform-wide statistics and analytics
 - User management (view, suspend/unsuspend, toggle admin, adjust points)
 - Item moderation (toggle status, delete)
@@ -70,7 +70,7 @@
 
 ---
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 | Layer          | Technology                                                  |
 |----------------|-------------------------------------------------------------|
@@ -86,7 +86,7 @@
 
 ---
 
-## 📐 Architecture
+## Architecture
 
 ```
 unishare/
@@ -133,7 +133,7 @@ unishare/
 
 ---
 
-## 🗃️ Database Schema
+## Database Schema
 
 The application uses **19 migrations** to build the following key tables:
 
@@ -153,7 +153,7 @@ The application uses **19 migrations** to build the following key tables:
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -245,7 +245,7 @@ npm run dev
 
 ---
 
-## 🔄 Borrow Request Lifecycle
+## Borrow Request Lifecycle
 
 ```mermaid
 stateDiagram-v2
@@ -267,7 +267,7 @@ stateDiagram-v2
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run the full test suite
@@ -281,7 +281,7 @@ See [`docs/testing.md`](docs/testing.md) for detailed test cases and results.
 
 ---
 
-## 📖 Documentation
+## Documentation
 
 | Document | Description |
 |----------|-------------|
@@ -291,7 +291,7 @@ See [`docs/testing.md`](docs/testing.md) for detailed test cases and results.
 
 ---
 
-## 👤 User Roles
+## User Roles
 
 | Role      | Capabilities                                                                 |
 |-----------|-----------------------------------------------------------------------------|
@@ -300,7 +300,7 @@ See [`docs/testing.md`](docs/testing.md) for detailed test cases and results.
 
 ---
 
-## 📄 License
+## License
 
 This project is open-sourced software licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
